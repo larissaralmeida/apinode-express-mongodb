@@ -1,8 +1,16 @@
 const express = require('express');
 const User = require('../models/user');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const authConfig = require('../config/auth.json');
 
 const router = express.Router();
+
+function generateToken(params = {}) {
+    return jwt.sign(params, authConfig.secret, {
+        expiresIn: 86400
+    });
+} 
 
 router.post('/register', async (req, res) => {
     const { email } = req.body;
@@ -16,7 +24,10 @@ router.post('/register', async (req, res) => {
 
         user.password = undefined;
 
-        return res.send({ user });
+        return res.send({ 
+            user,
+            token: generateToken({ id: user.id })
+         });
     } 
     
     catch (err) {
@@ -37,7 +48,10 @@ router.post('/authenticate', async (req, res) => {
 
     user.password = undefined;
 
-    res.send({ user });
+    res.send({ 
+        user,
+        token: generateToken({ id: user.id })
+    });
  
 });
 
