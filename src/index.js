@@ -13,3 +13,4 @@ app.listen(3000, 'localhost', () => {
 });
 
 require('./controllers/authController')(app);
+require('./controllers/projectController')(app);
