@@ -12,5 +12,4 @@ app.listen(3000, 'localhost', () => {
     console.log('Shut down server: ctrl + c');
 });
 
-require('./controllers/authController')(app);
-require('./controllers/projectController')(app);
+require('./app/controllers/index')(app);
